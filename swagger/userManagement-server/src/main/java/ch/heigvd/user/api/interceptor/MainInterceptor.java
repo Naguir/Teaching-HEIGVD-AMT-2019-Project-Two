@@ -14,6 +14,9 @@ public class MainInterceptor implements WebMvcConfigurer {
     @Autowired
     CheckLogin checkLogin;
 
+    @Autowired
+    CheckUpdateUser checkUpdateUser;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(checkLogin).addPathPatterns("/user");

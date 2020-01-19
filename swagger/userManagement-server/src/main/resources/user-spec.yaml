@@ -66,29 +66,25 @@ paths:
         404:
           description: "User not found"
 
-
-  /user/{email}:
     put:
-     # security:
-      #  - Bearer: []
+      security:
+        - Bearer: []
       summary: "Updated user"
       description: "This can only be done by the logged in user."
       operationId: "updateUser"
       produces:
       - "application/json"
       parameters:
-      - name: "email"
-        in: "path"
-        description: "name that need to be updated"
-        required: true
-        type: "string"
       - in: "body"
         name: "body"
         schema:
           type: "object"
           properties:
+            email:
+              type: "string"
             password:
               type: "string"
+
       responses:
         400:
           description: "Invalid user supplied"

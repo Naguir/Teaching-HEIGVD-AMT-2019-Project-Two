@@ -3,7 +3,7 @@ info:
   version: '0.1.0'
   title: Projet Two API
   description: An API to demonstrate Swagger
-host: localhost:8282
+host: 192.168.99.100:8282
 basePath: /api
 schemes:
   - http
