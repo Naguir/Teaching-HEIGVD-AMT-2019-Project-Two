@@ -3,7 +3,7 @@ info:
   version: '0.1.0'
   title: UserEntity Management
   description: Nous permet de gérer les utilisateurs
-host: localhost:8181
+host: 192.168.99.100:8181
 basePath: /userapi
 schemes:
   - http
@@ -29,6 +29,8 @@ paths:
         default:
           description: "successful operation"
     get:
+      security:
+        - Bearer: []
       description: get the list of all users
       operationId: getUsers
       produces:
@@ -42,14 +44,14 @@ paths:
               $ref: '#/definitions/User'
     delete:
       security:
-      - Bearer: []
+        - Bearer: []
       summary: "Delete user"
       description: "This can only be done by admin."
       operationId: "deleteUser"
       produces:
       - "application/json"
       parameters:
-      - name: "email"
+      - name: "user"
         in: "body"
         description: "The name that needs to be deleted"
         required: true
@@ -64,29 +66,25 @@ paths:
         404:
           description: "User not found"
 
-
-  /user/{email}:
     put:
-     # security:
-      #  - Bearer: []
+      security:
+        - Bearer: []
       summary: "Updated user"
       description: "This can only be done by the logged in user."
       operationId: "updateUser"
       produces:
       - "application/json"
       parameters:
-      - name: "email"
-        in: "path"
-        description: "name that need to be updated"
-        required: true
-        type: "string"
       - in: "body"
         name: "body"
         schema:
           type: "object"
           properties:
+            email:
+              type: "string"
             password:
               type: "string"
+
       responses:
         400:
           description: "Invalid user supplied"

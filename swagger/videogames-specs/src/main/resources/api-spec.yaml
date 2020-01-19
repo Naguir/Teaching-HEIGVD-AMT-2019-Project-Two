@@ -3,25 +3,25 @@ info:
   version: '0.1.0'
   title: Projet Two API
   description: An API to demonstrate Swagger
-host: localhost:8080
+host: 192.168.99.100:8282
 basePath: /api
 schemes:
-  - http
+- http
 paths:
   /videogames:
     post:
       description: create a video game
       operationId: createVideogame
       consumes:
-        - application/json
+      - application/json
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: videogame
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Videogame'
+      - name: videogame
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Videogame'
       responses:
         '201':
           description: created
@@ -31,7 +31,7 @@ paths:
       description: get the list of all video games
       operationId: getVideogames
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: success
@@ -44,19 +44,19 @@ paths:
       description: update an existing videogame
       operationId: updateVideogame
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: id
-          in: path
-          description: "Videogame object that need to be added to the store"
-          required: true
-          type: "integer"
-        - name: body
-          in: body
-          description: "Body to update"
-          required: true
-          schema:
-            $ref: '#/definitions/Videogame'
+      - name: id
+        in: path
+        description: "Videogame object that need to be added to the store"
+        required: true
+        type: "integer"
+      - name: body
+        in: body
+        description: "Body to update"
+        required: true
+        schema:
+          $ref: '#/definitions/Videogame'
       responses:
         200:
           description: "Update Done"
@@ -72,13 +72,13 @@ paths:
       description: delete a videogame using his id
       operationId: deleteVideogame
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: id
-          in: path
-          description: "videogame to delete"
-          required: true
-          type: integer
+      - name: id
+        in: path
+        description: "videogame to delete"
+        required: true
+        type: "Long"
       responses:
         200:
           description: 'Delete done'
@@ -107,5 +107,4 @@ definitions:
     properties:
       email:
         type: string
-
 

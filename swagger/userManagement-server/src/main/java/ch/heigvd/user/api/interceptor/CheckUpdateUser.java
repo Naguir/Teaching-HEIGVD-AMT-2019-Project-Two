@@ -24,9 +24,6 @@ public class CheckUpdateUser implements HandlerInterceptor {
         System.out.println(request.getContextPath());
         System.out.println(request.getHeaderNames());
 
-       // String mailuser = request.getC
-        if(request.getMethod().equals("POST") && !tokenJwt.IsAdmin(token))
-            throw new ApiException(0, "You are not an admin !");
         return true;
     }
 }

@@ -1,26 +1,20 @@
 package ch.heigvd.user.api.endpoints;
 
 import ch.heigvd.user.api.UserApi;
+import ch.heigvd.user.api.model.InlineObject;
+import ch.heigvd.user.api.model.InlineObject1;
 import ch.heigvd.user.api.model.User;
 import ch.heigvd.user.entities.UserEntity;
 import ch.heigvd.user.repositories.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.constraints.*;
 import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,20 +61,18 @@ public class UserApiController implements UserApi {
     }
 
 
-    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be updated",required=true) @PathVariable("email") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
+    public ResponseEntity<Void> updateUser(@ApiParam(value = ""  )  @Valid @RequestBody InlineObject user) {
+
+        if(userRepository.updatePassword(user.getPassword(),user.getEmail()) > 0){
+            return ResponseEntity.ok().build();
+        }
 
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @Valid @RequestBody User user) {
-        UserEntity newUserEntity = toUserEntity(user);
-        userRepository.deleteById(newUserEntity.getEmail());
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{email}")
-                .buildAndExpand(newUserEntity.getEmail()).toUri();
-
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<Void> deleteUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody InlineObject1 user){
+        userRepository.deleteById(user.getEmail());
+        return ResponseEntity.ok().build();
     }
 
     private UserEntity toUserEntity(User user) {

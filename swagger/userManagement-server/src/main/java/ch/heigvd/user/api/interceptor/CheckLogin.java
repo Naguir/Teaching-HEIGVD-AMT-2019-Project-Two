@@ -23,8 +23,6 @@ public class CheckLogin implements HandlerInterceptor {
         if(header == null)
             throw new ApiException(0, "Please Log !");
 
-        System.out.println(header);
-
         tokenJwt.parseJWT(header);
 
 

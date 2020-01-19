@@ -3,13 +3,15 @@ info:
   version: '0.1.0'
   title: Projet Two API
   description: An API to demonstrate Swagger
-host: localhost:8080
+host: 192.168.99.100:8282
 basePath: /api
 schemes:
   - http
 paths:
   /videogames:
     post:
+      security:
+        - Bearer: []
       description: create a video game
       operationId: createVideogame
       consumes:
@@ -28,6 +30,8 @@ paths:
           schema:
             type: object
     get:
+      security:
+        - Bearer: []
       description: get the list of all video games
       operationId: getVideogames
       produces:
@@ -40,45 +44,23 @@ paths:
             items:
               $ref: '#/definitions/Videogame'
 
-    put:
-      description: update an existing videogame
-      operationId: updateVideogame
-      produces:
-      - application/json
-      parameters:
-      - name: id
-        in: path
-        description: "Videogame object that need to be added to the store"
-        required: true
-        type: "integer"
-      - name: body
-        in: body
-        description: "Body to update"
-        required: true
-        schema:
-          $ref: '#/definitions/Videogame'
-      responses:
-        200:
-          description: "Update Done"
-        400:
-          description: "Invalid Videogame supplied"
-        404:
-          description: "Videogame not found"
-        405:
-          description: "Validation exception"
-
-  /videogames/{id}:
     delete:
+      security:
+        - Bearer: []
       description: delete a videogame using his id
       operationId: deleteVideogame
       produces:
         - application/json
       parameters:
-        - name: id
-          in: path
+        - name: videogames
+          in: body
           description: "videogame to delete"
           required: true
-          type: integer
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
       responses:
         200:
           description: 'Delete done'
@@ -89,6 +71,12 @@ paths:
         404:
           description: "Videogame not found"
 
+securityDefinitions:
+  Bearer:
+    description: "Give the token at each user"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
 
 definitions:
   Videogame:
@@ -102,10 +90,6 @@ definitions:
         type: string
       supportedOn:
         type: string
-  User:
-    type: object
-    properties:
-      email:
-        type: string
+
 
 

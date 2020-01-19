@@ -17,14 +17,15 @@ CREATE TABLE `user_entity` (
 );
 
 
-CREATE TABLE IF NOT EXISTS `purchase` (
-  `videoGames_id` INT(6) UNSIGNED  NOT NULL,
+CREATE TABLE `purchase_entity` (
+  `purchase_id`INT(6) UNSIGNED AUTO_INCREMENT,
+  `videogames_id` INT(6) UNSIGNED  NOT NULL,
   `user_id` varchar(255) NOT NULL,
-  PRIMARY KEY (`videoGames_id`, `user_id`),
-  INDEX `FK_purchase_videoGame_ID` (`videoGames_id` ASC),
+  CONSTRAINT FK_purchase_ID PRIMARY KEY (purchase_id),
+  INDEX `FK_purchase_videogame_ID` (`videogames_id` ASC),
   INDEX `FK_purchase_user_ID` (`user_id` ASC),
-  CONSTRAINT `FK_purchase_videoGame_ID`
-    FOREIGN KEY (`videoGames_id`)
+  CONSTRAINT `FK_purchase_videogame_ID`
+    FOREIGN KEY (`videogames_id`)
     REFERENCES `videogame_entity` (`id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_purchase_user_ID`
