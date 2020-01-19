@@ -24,8 +24,7 @@ public class CheckAdminInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
 
 
-
-        if(request.getMethod().equals("POST") && !tokenJwt.IsAdmin(token))
+        if((request.getMethod().equals("DELETE") || request.getMethod().equals("POST")) && !tokenJwt.IsAdmin(token))
             throw new ApiException(0, "You are not an admin !");
         return true;
     }

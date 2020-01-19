@@ -3,23 +3,25 @@ info:
   version: '0.1.0'
   title: Projet Two API
   description: An API to demonstrate Swagger
-host: localhost:8080
+host: 192.168.99.100:8282
 basePath: /api
 schemes:
-  - http
+- http
 paths:
-  /videogame:
+  /videogames:
     post:
       description: create a video game
       operationId: createVideogame
       consumes:
-        - application/json
+      - application/json
+      produces:
+      - application/json
       parameters:
-        - name: videogame
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Videogame'
+      - name: videogame
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Videogame'
       responses:
         '201':
           description: created
@@ -29,7 +31,7 @@ paths:
       description: get the list of all video games
       operationId: getVideogames
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: success
@@ -37,25 +39,73 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Videogame'
-    patch:
-      description: update a videogame
+
+    put:
+      description: update an existing videogame
       operationId: updateVideogame
       produces:
-        - application/json
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: "Videogame object that need to be added to the store"
+        required: true
+        type: "integer"
+      - name: body
+        in: body
+        description: "Body to update"
+        required: true
+        schema:
+          $ref: '#/definitions/Videogame'
       responses:
-        '200':
-          description: success update
+        200:
+          description: "Update Done"
+        400:
+          description: "Invalid Videogame supplied"
+        404:
+          description: "Videogame not found"
+        405:
+          description: "Validation exception"
+
+  /videogames/{id}:
+    delete:
+      description: delete a videogame using his id
+      operationId: deleteVideogame
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: "videogame to delete"
+        required: true
+        type: "Long"
+      responses:
+        200:
+          description: 'Delete done'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Videogame'
+            $ref: '#/definitions/Videogame'
+        400:
+          description: "Invalid videogame supplied"
+        404:
+          description: "Videogame not found"
+
+
 definitions:
   Videogame:
     type: object
     properties:
+      id:
+        type: integer
       kind:
         type: string
       name:
         type: string
-      console:
-        supportedOn: string
+      supportedOn:
+        type: string
+  User:
+    type: object
+    properties:
+      email:
+        type: string
+
+

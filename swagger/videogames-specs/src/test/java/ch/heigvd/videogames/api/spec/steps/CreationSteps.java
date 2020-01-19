@@ -9,6 +9,8 @@ import ch.heigvd.videogames.api.DefaultApi;
 import ch.heigvd.videogames.api.dto.Videogame;
 import ch.heigvd.videogames.api.spec.helpers.Environment;
 
+import javax.validation.constraints.NotNull;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
@@ -38,6 +40,7 @@ public class CreationSteps {
         assertNotNull(api);
     }
 
+
     @Given("^I have a videogame payload$")
     public void i_have_a_videogame_payload() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
@@ -47,7 +50,7 @@ public class CreationSteps {
     @When("^I POST it to the /videogames endpoint$")
     public void i_POST_it_to_the_videogames_endpoint() throws Throwable {
         try {
-            lastApiResponse = api.createVideogameWithHttpInfo(videogame);
+            lastApiResponse = api.createVideogameWithHttpInfo(videogame.kind("test").name("test").supportedOn("test"));
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();

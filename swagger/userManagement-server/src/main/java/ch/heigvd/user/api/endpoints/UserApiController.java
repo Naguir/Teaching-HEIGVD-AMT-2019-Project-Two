@@ -1,6 +1,8 @@
 package ch.heigvd.user.api.endpoints;
 
 import ch.heigvd.user.api.UserApi;
+import ch.heigvd.user.api.exceptions.ApiException;
+import ch.heigvd.user.api.model.InlineObject;
 import ch.heigvd.user.api.model.User;
 import ch.heigvd.user.entities.UserEntity;
 import ch.heigvd.user.repositories.UserRepository;
@@ -12,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.*;
@@ -72,15 +72,9 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @Valid @RequestBody User user) {
-        UserEntity newUserEntity = toUserEntity(user);
-        userRepository.deleteById(newUserEntity.getEmail());
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{email}")
-                .buildAndExpand(newUserEntity.getEmail()).toUri();
-
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<Void> deleteUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody InlineObject user){
+        userRepository.deleteById(user.getEmail());
+        return ResponseEntity.ok().build();
     }
 
     private UserEntity toUserEntity(User user) {

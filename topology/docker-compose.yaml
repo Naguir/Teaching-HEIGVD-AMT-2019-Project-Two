@@ -1,5 +1,17 @@
 version: '3'
 services:
+
+  reverse-proxy:
+    image: traefik:v2.1.2
+    command: --api.insecure=true --providers.docker --providers.docker.exposedbydefault=false --entrypoints.web.address=:80
+
+    ports:
+      - "80:80"
+      - "2020:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    
+
   mysql_user:
     build: ../images/firstBackEnd
     restart: always
@@ -28,3 +40,25 @@ services:
       - PMA_HOSTS=mysql_game,mysql_user
     ports:
       - '6060:80'
+  
+  user_management:
+    build: ../images/userManagement
+    ports:
+        - "8181:8181"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.ports=8181"
+      - "traefik.http.routers.user_management.entrypoints=web"
+      - "traefik.http.routers.user_mangement.rule=PathPrefix(`/userapi`)"
+
+
+  video_games:
+    build: ../images/videoGames
+    ports:
+        - "8282:8282"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.ports=8282"
+      - "traefik.http.routers.video_games.entrypoints=web"
+      - "traefik.http.routers.video_games.rule=PathPrefix(`/api`)"
+    
